@@ -1,3 +1,4 @@
+import os
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
@@ -6,7 +7,7 @@ import discord
 from discord.ext import commands
 
 
-TOKEN = ""
+TOKEN = os.getenv("TOKEN")
 
 scope = [
     "https://spreadsheets.google.com/feeds",
