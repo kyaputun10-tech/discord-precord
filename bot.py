@@ -1,4 +1,3 @@
-import os
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
@@ -6,6 +5,7 @@ from datetime import datetime
 import discord
 from discord.ext import commands
 
+import os
 
 TOKEN = os.getenv("TOKEN")
 
