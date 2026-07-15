@@ -1,16 +1,5 @@
 from flask import Flask
 from threading import Thread
-
-app = Flask('')
-
-@app.route('/')
-def home():
-    return "Bot is running"
-
-def run():
-    app.run(host='0.0.0.0', port=10000)
-
-Thread(target=run).start()
 import os
 import json
 import gspread
@@ -21,6 +10,18 @@ import discord
 from discord.ext import commands
 
 TOKEN = os.getenv("TOKEN")
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Discord Bot is running"
+
+def run_web():
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
+
+Thread(target=run_web).start()
 
 scope = [
     "https://spreadsheets.google.com/feeds",
