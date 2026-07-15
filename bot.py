@@ -1,11 +1,11 @@
+import os
+import json
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
 
 import discord
 from discord.ext import commands
-
-import os
 
 TOKEN = os.getenv("TOKEN")
 
@@ -14,8 +14,12 @@ scope = [
     "https://www.googleapis.com/auth/drive"
 ]
 
-creds = ServiceAccountCredentials.from_json_keyfile_name(
-    "credentials.json",
+credentials_dict = json.loads(
+    os.getenv("GOOGLE_CREDENTIALS")
+)
+
+creds = ServiceAccountCredentials.from_json_keyfile_dict(
+    credentials_dict,
     scope
 )
 
