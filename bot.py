@@ -151,6 +151,8 @@ async def record(
 )
 async def today(interaction: discord.Interaction):
 
+    records = sheet.get_all_values()
+
     today_date = datetime.now().strftime("%Y-%m-%d")
 
     user = interaction.user.name
@@ -161,7 +163,7 @@ async def today(interaction: discord.Interaction):
 
     for row in records[1:]:
 
-       if row[0].startswith(today_date) and row[1] == user:
+        if row[0].startswith(today_date) and row[1] == user:
 
             invest_total += int(row[6])
             payout_total += int(row[7])
@@ -173,6 +175,8 @@ async def today(interaction: discord.Interaction):
         f"""
 📈 本日収支
 
+👤 ユーザー: {user}
+
 稼働数: {count}台
 
 総投資: {invest_total}枚
@@ -181,7 +185,6 @@ async def today(interaction: discord.Interaction):
 差枚: {diff:+}枚
 """
     )
-
 
 @bot.tree.command(
     name="month",
