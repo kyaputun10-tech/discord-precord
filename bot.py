@@ -232,7 +232,6 @@ async def hall(
     hall: str
 ):
     user = interaction.user.name
-``
 
     records = sheet.get_all_values()
 
@@ -252,8 +251,6 @@ async def hall(
 
     await interaction.response.send_message(
         f"""
-await interaction.response.send_message(
-    f"""
 🏪 {hall}
 
 👤 ユーザー: {user}
@@ -265,9 +262,7 @@ await interaction.response.send_message(
 
 差枚: {diff:+}枚
 """
-)
-
-
+    )
 @bot.tree.command(
     name="medal",
     description="貯メダル一覧"
