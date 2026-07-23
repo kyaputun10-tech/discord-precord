@@ -72,8 +72,7 @@ async def record(
 
     diff = payout - invest
 
-    # 貯メダル更新
-        records_medal = medal_sheet.get_all_values()
+    records_medal = medal_sheet.get_all_values()
 
     found = False
     new_total = diff
