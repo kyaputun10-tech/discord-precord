@@ -53,6 +53,7 @@ async def on_ready():
     synced = await bot.tree.sync()
     print(f"{len(synced)}個のコマンドを同期")
     print("起動成功")
+    print(bot.user)
 
 
 @bot.tree.command(
@@ -68,6 +69,7 @@ async def record(
     invest: int,
     payout: int
 ):
+    try:
     user = interaction.user.name
 
     diff = payout - invest
@@ -276,6 +278,9 @@ async def medal(interaction: discord.Interaction):
 
             message += f"🏪 {row[1]} : {row[2]}枚\n"
 
-    await interaction.response.send_message(message)
+      except Exception as e:
+        await interaction.response.send_message(
+            f"エラー: {e}"
+        )
 
 bot.run(TOKEN)
