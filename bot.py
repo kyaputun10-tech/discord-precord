@@ -69,7 +69,9 @@ async def record(
     payout: int
 ):
 
-    diff = payout - invest
+ user = interaction.user.name
+
+diff = payout - invest
 
     # 貯メダル更新
     records_medal = medal_sheet.get_all_values()
@@ -79,32 +81,35 @@ async def record(
 
     for i, row in enumerate(records_medal[1:], start=2):
 
-        if row[0] == hall:
+        if row[0] == user and row[1] == hall:
 
-            current = int(row[1])
+        current = int(row[2])
 
             new_total = current + diff
 
-            medal_sheet.update(
-                f"B{i}",
-                [[new_total]]
-            )
+          medal_sheet.update(
+    f"C{i}",
+    [[new_total]]
+)
 
             found = True
             break
 
     if not found:
 
-        medal_sheet.append_row([
-            hall,
-            diff
-        ])
+       medal_sheet.append_row([
+    user,
+    hall,
+    diff
+])
+
 
         new_total = diff
 
     # 稼働記録保存
     sheet.append_row([
         datetime.now().strftime("%Y-%m-%d %H:%M"),
+        user,
         hall,
         machine,
         start,
@@ -117,6 +122,8 @@ async def record(
     await interaction.response.send_message(
         f"""
 📊 稼働記録
+
+👤 ユーザー: {user}
 
 🏪 店舗: {hall}
 🎰 機種: {machine}
@@ -140,9 +147,9 @@ async def record(
 )
 async def today(interaction: discord.Interaction):
 
-    records = sheet.get_all_values()
-
     today_date = datetime.now().strftime("%Y-%m-%d")
+
+    user = interaction.user.name
 
     invest_total = 0
     payout_total = 0
@@ -150,10 +157,10 @@ async def today(interaction: discord.Interaction):
 
     for row in records[1:]:
 
-        if row[0].startswith(today_date):
+       if row[0].startswith(today_date) and row[1] == user:
 
-            invest_total += int(row[5])
-            payout_total += int(row[6])
+            invest_total += int(row[6])
+            payout_total += int(row[7])
             count += 1
 
     diff = payout_total - invest_total
@@ -178,6 +185,8 @@ async def today(interaction: discord.Interaction):
 )
 async def month(interaction: discord.Interaction):
 
+    user = interaction.user.name
+
     records = sheet.get_all_values()
 
     current_month = datetime.now().strftime("%Y-%m")
@@ -188,10 +197,10 @@ async def month(interaction: discord.Interaction):
 
     for row in records[1:]:
 
-        if row[0].startswith(current_month):
+       if row[0].startswith(current_month) and row[1] == user:
 
-            invest_total += int(row[5])
-            payout_total += int(row[6])
+            invest_total += int(row[6])
+            payout_total += int(row[7])
             count += 1
 
     diff = payout_total - invest_total
@@ -218,6 +227,8 @@ async def hall(
     interaction: discord.Interaction,
     hall: str
 ):
+    user = interaction.user.name
+``
 
     records = sheet.get_all_values()
 
@@ -227,17 +238,21 @@ async def hall(
 
     for row in records[1:]:
 
-        if row[1] == hall:
+        if row[1] == user and row[2] == hall:
 
-            invest_total += int(row[5])
-            payout_total += int(row[6])
+            invest_total += int(row[6])
+            payout_total += int(row[7])
             count += 1
 
     diff = payout_total - invest_total
 
     await interaction.response.send_message(
         f"""
+await interaction.response.send_message(
+    f"""
 🏪 {hall}
+
+👤 ユーザー: {user}
 
 稼働数: {count}台
 
@@ -246,7 +261,7 @@ async def hall(
 
 差枚: {diff:+}枚
 """
-    )
+)
 
 
 @bot.tree.command(
@@ -255,12 +270,17 @@ async def hall(
 )
 async def medal(interaction: discord.Interaction):
 
-    records = medal_sheet.get_all_values()
+    user = interaction.user.name
 
-    message = "🏦 貯メダル残高一覧\n\n"
+records = medal_sheet.get_all_values()
 
-    for row in records[1:]:
-        message += f"{row[0]} : {row[1]}枚\n"
+message = f"🏦 {user} の貯メダル残高\n\n"
+
+for row in records[1:]:
+
+    if row[0] == user:
+
+        message += f"🏪 {row[1]} : {row[2]}枚\n"
 
     await interaction.response.send_message(message)
 
