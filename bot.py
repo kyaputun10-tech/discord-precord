@@ -69,7 +69,7 @@ async def record(
     invest: int,
     payout: int
 ):
-    try:
+  try:
     user = interaction.user.name
 
     diff = payout - invest
