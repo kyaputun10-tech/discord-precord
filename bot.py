@@ -271,17 +271,16 @@ async def medal(interaction: discord.Interaction):
 
     user = interaction.user.name
 
-records = medal_sheet.get_all_values()
+    records = medal_sheet.get_all_values()
 
-message = f"🏦 {user} の貯メダル残高\n\n"
+    message = f"🏦 {user} の貯メダル残高\n\n"
 
-for row in records[1:]:
+    for row in records[1:]:
 
-    if row[0] == user:
+        if row[0] == user:
 
-        message += f"🏪 {row[1]} : {row[2]}枚\n"
+            message += f"🏪 {row[1]} : {row[2]}枚\n"
 
     await interaction.response.send_message(message)
-
 
 bot.run(TOKEN)
