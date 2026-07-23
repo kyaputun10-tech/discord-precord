@@ -73,7 +73,7 @@ async def record(
     diff = payout - invest
 
     # 貯メダル更新
-    records_medal = medal_sheet.get_all_values()
+        records_medal = medal_sheet.get_all_values()
 
     found = False
     new_total = diff
@@ -94,15 +94,15 @@ async def record(
             found = True
             break
 
-  if not found:
+    if not found:
 
-    medal_sheet.append_row([
-        user,
-        hall,
-        diff
-    ])
+        medal_sheet.append_row([
+            user,
+            hall,
+            diff
+        ])
 
-    new_total = diff
+        new_total = diff
     # 稼働記録保存
     sheet.append_row([
         datetime.now().strftime("%Y-%m-%d %H:%M"),
