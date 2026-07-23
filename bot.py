@@ -94,15 +94,8 @@ async def record(
             found = True
             break
 
-    if not found:
+  if not found:
 
-        medal_sheet.append_row([
-            user,
-            hall,
-            diff
-        ])
-
-        new_total = diff
     medal_sheet.append_row([
         user,
         hall,
