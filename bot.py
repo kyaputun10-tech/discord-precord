@@ -74,40 +74,36 @@ async def record(
 diff = payout - invest
 
     # 貯メダル更新
-  records_medal = medal_sheet.get_all_values()
+    records_medal = medal_sheet.get_all_values()
 
-found = False
-new_total = diff
+    found = False
+    new_total = diff
 
-for i, row in enumerate(records_medal[1:], start=2):
+    for i, row in enumerate(records_medal[1:], start=2):
 
-    if row[0] == user and row[1] == hall:
+        if row[0] == user and row[1] == hall:
 
-        current = int(row[2])
-
-        new_total = current + diff
-
-        medal_sheet.update(
-            f"C{i}",
-            [[new_total]]
-        )
-
-        found = True
-        break
-
-        current = int(row[2])
+            current = int(row[2])
 
             new_total = current + diff
 
-          medal_sheet.update(
-    f"C{i}",
-    [[new_total]]
-)
+            medal_sheet.update(
+                f"C{i}",
+                [[new_total]]
+            )
 
             found = True
             break
 
-   if not found:
+    if not found:
+
+        medal_sheet.append_row([
+            user,
+            hall,
+            diff
+        ])
+
+        new_total = diff
 
     medal_sheet.append_row([
         user,
