@@ -68,10 +68,9 @@ async def record(
     invest: int,
     payout: int
 ):
+    user = interaction.user.name
 
- user = interaction.user.name
-
-diff = payout - invest
+    diff = payout - invest
 
     # 貯メダル更新
     records_medal = medal_sheet.get_all_values()
@@ -104,7 +103,6 @@ diff = payout - invest
         ])
 
         new_total = diff
-
     medal_sheet.append_row([
         user,
         hall,
